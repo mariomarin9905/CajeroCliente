@@ -1,11 +1,35 @@
-<html>
-    <head>
-        <title>CAJERO </title>
-         <link rel = "icon" type = "image/png" sizes = "32x32"  href="/src/main/resources/static/imagnescajero-automatico.png">
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>Login</div>
-    </body>
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:layout = "http://wwww.ultraq.net.nz/thymeleaf/layout"
+       layout:decorate = ~{layout}>
+
+    <main layout:fragment="main">
+        <div class = "container-sm">            
+            <div class="mt-5 rounded" style="background-color: rgba(247,
+                 243, 233, 0.6);">
+                <form th:action="@{/cajero}" class ="p-5"
+                      method="POST" th:object="${usuario}" >
+                    <h3 class = "text-center ">Inicia sesion</h3>
+
+                    <div class="mb-3">
+                        <label for="userName" class="form-label text-center
+                               fs-5" onclick="" >UserName</label>
+                        <input type="text" class="form-control" id="userName"
+                               aria-describedby="emailHelp" th:field="*{userName}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label text-center
+                               fs-5">Contraseña</label>
+                        <input type="password" class="form-control"
+                               id="Password" th:field = "*{password}">
+                    </div>
+                    <button type="submit" class="btn btn-warning col-12" id
+                            ="submit">Enviar</button>
+                </form>
+            </div>
+        </div>
+        <script>
+
+
+        </script>
+    </main>
 </html>
