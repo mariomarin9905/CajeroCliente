@@ -3,8 +3,8 @@
        layout:decorate = ~{layout}>
 
     <main layout:fragment="main">
-        <div class = "container-sm">            
-            <div class="mt-5 rounded" style="background-color: rgba(247,
+        <div class = "container-sm d-flex justify-content-center ">            
+            <div class="mt-5 rounded w-50" style="background-color: rgba(247,
                  243, 233, 0.6);">
                 <form th:action="@{/cajero}" class ="p-5"
                       method="POST" th:object="${usuario}" >
@@ -23,13 +23,56 @@
                                id="Password" th:field = "*{password}">
                     </div>
                     <button type="submit" class="btn btn-warning col-12" id
-                            ="submit">Enviar</button>
+                            ="submit">Continuar <i
+                            class="bi bi-arrow-right-square"></i></button>
                 </form>
             </div>
         </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input th:if="${ error != null}" type="hidden"  th:value="${error}"  id = "inputError"/>
+        <div class="modal" tabindex="-1" id="modalError">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="textoModal"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <script>
-
-
+            $(document).ready(() => {
+                if ($("#inputError") != undefined) {
+                    const modal = document.getElementById('modalError');
+                    $("#textoModal").text($("#inputError").val())
+                    modal.addEventListener('shown.bs.modal', () => {
+                        myInput.focus()
+                    })
+                }
+            });
         </script>
     </main>
 </html>
