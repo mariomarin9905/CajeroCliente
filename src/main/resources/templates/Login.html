@@ -3,11 +3,11 @@
        layout:decorate = ~{layout}>
 
     <main layout:fragment="main">
-        <div class = "container-sm d-flex justify-content-center ">            
+        <div class = "container-sm d-flex justify-content-center">            
             <div class="mt-5 rounded w-50" style="background-color: rgba(247,
                  243, 233, 0.6);">
                 <form th:action="@{/cajero}" class ="p-5"
-                      method="POST" th:object="${usuario}" >
+                      method="POST" th:object="${usuario}" id="formulario">
                     <h3 class = "text-center ">Inicia sesion</h3>
 
                     <div class="mb-3">
@@ -20,58 +20,58 @@
                         <label for="password" class="form-label text-center
                                fs-5">Contraseña</label>
                         <input type="password" class="form-control"
-                               id="Password" th:field = "*{password}">
+                               id="password" th:field = "*{password}">
                     </div>
                     <button type="submit" class="btn btn-warning col-12" id
                             ="submit">Continuar <i
-                            class="bi bi-arrow-right-square"></i></button>
+                            class="bi bi-arrow-right-square" ></i></button>
                 </form>
             </div>
         </div>
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <input  th:if="${param.error != null}" type="hidden"  th:value="${param.error}" id = "inputError" />
+        <div class="modal" tabindex="-1" id ="modalError">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h5 class="modal-title">Error</h5>
+                        <button type="button" class="btn-close fs-4" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        ...
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <input th:if="${ error != null}" type="hidden"  th:value="${error}"  id = "inputError"/>
-        <div class="modal" tabindex="-1" id="modalError">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Modal title</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p id="textoModal"></p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
+                    <div class="modal-body fs-2 text-danger Semibold weight text. " id="modal-text">
+
+                    </div>                   
                 </div>
             </div>
         </div>
         <script>
-            $(document).ready(() => {
-                if ($("#inputError") != undefined) {
-                    const modal = document.getElementById('modalError');
-                    $("#textoModal").text($("#inputError").val())
-                    modal.addEventListener('shown.bs.modal', () => {
-                        myInput.focus()
-                    })
+            function activaModal(texto) {
+                $("#modal-text").text(texto);
+                var modal = new bootstrap.Modal(document.getElementById('modalError'));
+                modal.show();
+            }
+            
+            function validar() {          
+                var userName = $("#userName").val();
+                var password = $("#password").val();
+                if ((userName.trim().length !== 0) && (password.trim().length !== 0)) {
+                    
+                    return true;
+                } else {
+                    activaModal("La credenciales estan vacias");
+                    return false;
                 }
+
+            }
+            $(document).ready(() => {
+                if ($("#inputError") !== undefined) {
+                    const texto = $("#inputError").val();
+                    if ((texto !== undefined) && (texto.trim().length !== 0)) {
+                        activaModal($("#inputError").val());
+                    }
+                }
+                $("#formulario").submit(function () {
+                    return validar();
+                });
+
             });
         </script>
     </main>
